@@ -1,0 +1,16 @@
+{
+  "id": "auto_locked",
+  "title": {
+    "en": "Auto Locked"
+  },
+  "titleFormatted": {
+    "en": "Auto locked"
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=YDM3168"
+    }
+  ]
+}

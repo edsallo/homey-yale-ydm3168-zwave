@@ -1,0 +1,11 @@
+{
+  "1.2.0": {
+    "en": "Updated meshdriver, added new model for YD-01-CON"
+  },
+  "1.2.1": {
+    "en": "Fix PIN-code updates, protect PIN fields, and add App Store metadata"
+  },
+  "1.2.2": {
+    "en": "Show PIN codes in device settings."
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "class": "lock",
+  "name": {
+    "en": "YDM3168 Mortise Lock"
+  },
+  "capabilities": [
+    "locked"
+  ],
+  "images": {
+    "large": "/drivers/YDM3168/assets/images/large.jpg",
+    "small": "/drivers/YDM3168/assets/images/small.jpg"
+  },
+  "zwave": {
+    "manufacturerId": [
+      297
+    ],
+    "productTypeId": [
+      64
+    ],
+    "productId": [
+      0,
+      5
+    ],
+    "requireSecure": true,
+    "learnmode": {
+      "image": "/drivers/YDM3168/assets/learnmode.svg",
+      "instruction": {
+        "en": "R # Master PIN # 3 # 1 # 80 # Pairing #"
+      }
+    },
+    "unlearnmode": {
+      "image": "/drivers/YDM3168/assets/learnmode.svg",
+      "instruction": {
+        "en": "R # Master PIN # 3 # 2 # 80 # Unpairing #"
+      }
+    },
+    "associationGroups": [
+      1
+    ],
+    "associationGroupsOptions": {}
+  },
+  "settings": [
+    {
+      "type": "group",
+      "label": { "en": "User Slot 1" },
+      "children": [
+        { "id": "slot1_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 2" },
+      "children": [
+        { "id": "slot2_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 3" },
+      "children": [
+        { "id": "slot3_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 4" },
+      "children": [
+        { "id": "slot4_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 5" },
+      "children": [
+        { "id": "slot5_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 6" },
+      "children": [
+        { "id": "slot6_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 7" },
+      "children": [
+        { "id": "slot7_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 8" },
+      "children": [
+        { "id": "slot8_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 9" },
+      "children": [
+        { "id": "slot9_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "User Slot 10" },
+      "children": [
+        { "id": "slot10_code", "type": "text", "label": { "en": "PIN code (4-10 digits)" } }
+      ]
+    }
+  ]
+}

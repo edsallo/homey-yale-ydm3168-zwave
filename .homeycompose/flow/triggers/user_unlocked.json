@@ -1,0 +1,28 @@
+{
+  "id": "user_unlocked",
+  "title": {
+    "en": "Unlocked by user"
+  },
+  "titleFormatted": {
+    "en": "Unlocked by user [[userid]]"
+  },
+  "tokens": [
+    {
+      "name": "userid",
+      "type": "number",
+      "title": {
+        "en": "User ID"
+      },
+      "example": {
+        "en": "1"
+      }
+    }
+  ],
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=YDM3168"
+    }
+  ]
+}

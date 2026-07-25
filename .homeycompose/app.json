@@ -1,0 +1,29 @@
+{
+  "id": "com.yale.lock",
+  "sdk": 3,
+  "name": {
+    "en": "Yale Digital Lock"
+  },
+  "description": {
+    "en": "Adds support for Yale Digital Locks"
+  },
+  "category": "security",
+  "version": "1.2.2",
+  "brandColor": "#1F3556",
+  "compatibility": ">=5.0.0",
+  "author": {
+    "name": "Eduard Sallo",
+    "email": "ed.sallo@gmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Eduard Sallo"
+      }
+    ]
+  },
+  "images": {
+    "large": "/assets/images/large.jpg",
+    "small": "/assets/images/small.jpg"
+  }
+}
