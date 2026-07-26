@@ -1,15 +1,16 @@
-# Yale YDM3168 Z-Wave Lock
+# Yale YDM3168 Z-Wave Lock for Homey
 
-Homey SDK v3 driver for the Yale YDM3168 mortise lock with a secure Z-Wave module.
+Homey SDK v3 app for the Yale YDM3168 mortise lock with a Z-Wave module.
 
-## Features
+## Version 1.3.0
 
-- Lock and unlock control through the Z-Wave Door Lock command class.
-- Flow triggers for keypad, thumbturn, Z-Wave, auto-lock, tamper, battery, and user-PIN events.
-- Management of PIN slots 1–10 through Z-Wave User Code commands. PINs must contain 4–10 digits.
+- Lock and unlock control in Homey.
+- Flow triggers for keypad, thumbturn, Z-Wave, auto-lock, tamper, battery, and PIN events.
+- Management of 10 Yale PIN slots through device settings.
+- PIN codes from 6 to 12 digits; codes can be written, replaced, and removed.
 
-## Important notes
+## Notes
 
-- Include the lock using secure Z-Wave inclusion; the driver requires secure communication.
-- Some physical lock actions, such as a thumbturn or fingerprint action, may not produce a Z-Wave report on this model.
-- PINs are stored in Homey device settings. The UI masks them, but treat access to Homey and its backups as sensitive.
+- Pair the lock using secure Z-Wave inclusion (Security S0 for this lock).
+- PINs are stored in the Homey device settings. Keep access to Homey and its backups secure.
+- Some physical actions, such as a thumbturn or fingerprint action, may not generate a Z-Wave report on this model.
