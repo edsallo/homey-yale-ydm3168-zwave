@@ -1,6 +1,6 @@
 {
   "name": "com.yale.lock",
-  "version": "1.2.7",
+  "version": "1.2.22",
   "description": "Yale Z-Wave Lock (SDK v3)",
   "main": "app.js",
   "dependencies": {

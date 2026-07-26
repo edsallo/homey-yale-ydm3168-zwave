@@ -7,6 +7,10 @@ class YDM3168 extends ZwaveDevice {
   async onNodeInit() {
     this.log('YDM3168 initialized');
 
+    if (this.hasCapability('button.read_user_codes')) {
+      await this.removeCapability('button.read_user_codes');
+    }
+
     // YDM3168 implements Door Lock command-class v1. The system mapping only
     // provides a v2 parser, so keep the payload explicit for this lock.
     this.registerCapability('locked', 'DOOR_LOCK', {
@@ -120,14 +124,6 @@ class YDM3168 extends ZwaveDevice {
   }
 
   // =========================
-  // DELAY
-  // =========================
-
-  async _delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  // =========================
   // SETTINGS (USER CODES)
   // =========================
 
@@ -142,18 +138,29 @@ class YDM3168 extends ZwaveDevice {
 
       const slot = parseInt(match[1], 10);
       const code = String(newSettings[key] || '').trim();
+      // The Yale keypad numbers PINs 41-50; Z-Wave exposes those same PIN
+      // locations as the logical User Code IDs 1-10.
+      const userId = slot;
 
-      if (code && !/^\d{4,10}$/.test(code)) {
-        throw new Error(`PIN for slot ${slot} must contain 4 to 10 digits.`);
+      if (code && !/^\d{6,12}$/.test(code)) {
+        throw new Error(`PIN for slot ${slot} must contain 6 to 12 digits.`);
       }
 
       try {
-        await this.node.CommandClass.COMMAND_CLASS_USER_CODE.USER_CODE_SET({
-          'User ID': slot,
-          'User ID Status': code ? 'Occupied' : 'Available',
-          'User Code': code,
+        const userCode = Buffer.from(code, 'ascii');
+        this.log(`PIN slot ${slot}: payload prepared`, {
+          isBuffer: Buffer.isBuffer(userCode),
+          constructor: userCode.constructor.name,
+          length: userCode.length,
         });
-        this.log(`Updated PIN slot ${slot}`);
+        await this.node.CommandClass.COMMAND_CLASS_USER_CODE.USER_CODE_SET({
+          'User Identifier': userId,
+          'User ID Status': code ? 'Occupied' : 'Available (not set)',
+          // The Homey Z-Wave proxy uses the raw command-field identifier
+          // here (unlike the human-readable names used by Door Lock).
+          USER_CODE: userCode,
+        });
+        this.log(`Updated Homey slot ${slot} in Yale Z-Wave PIN slot ${userId}`);
 
       } catch (err) {
         this.error(`SLOT ${slot} ERROR`, err);
