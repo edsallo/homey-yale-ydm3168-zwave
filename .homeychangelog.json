@@ -7,5 +7,20 @@
   },
   "1.2.2": {
     "en": "Show PIN codes in device settings."
+  },
+  "1.2.3": {
+    "en": "Use the supported Z-Wave Door Lock and Notification capability mappings."
+  },
+  "1.2.4": {
+    "en": "Add the Yale Door Lock command-class v1 parser."
+  },
+  "1.2.5": {
+    "en": "Diagnostic build for the lock command path."
+  },
+  "1.2.6": {
+    "en": "Diagnostic build for Homey device routing."
+  },
+  "1.2.7": {
+    "en": "Restore lock control by adding the missing Homey driver class."
   }
 }

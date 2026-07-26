@@ -5,32 +5,28 @@ const { ZwaveDevice } = require('homey-zwavedriver');
 class YDM3168 extends ZwaveDevice {
 
   async onNodeInit() {
-
-
     this.log('YDM3168 initialized');
 
-    // 🔐 LOCK capability
+    // YDM3168 implements Door Lock command-class v1. The system mapping only
+    // provides a v2 parser, so keep the payload explicit for this lock.
     this.registerCapability('locked', 'DOOR_LOCK', {
       getOpts: {
         getOnStart: true,
       },
       get: 'DOOR_LOCK_OPERATION_GET',
       set: 'DOOR_LOCK_OPERATION_SET',
-
-      setParser: value => ({
-        'Door Lock Mode': value ? 'Door Secured' : 'Door Unsecured'
+      setParserV1: value => ({
+        'Door Lock Mode': value ? 'Door Secured' : 'Door Unsecured',
       }),
-
       report: 'DOOR_LOCK_OPERATION_REPORT',
-
-      reportParser: report => {
-        this.log('LOCK REPORT:', report);
+      reportParserV1: report => {
+        if (!report || !Object.prototype.hasOwnProperty.call(report, 'Door Lock Mode')) return null;
         return report['Door Lock Mode'] === 'Door Secured';
-      }
+      },
     });
 
     // 🚨 ALARM parsing (основная логика)
-    this.registerCapability('locked', 'ALARM', {
+    this.registerCapability('locked', 'NOTIFICATION', {
 
       report: 'ALARM_REPORT',
 
@@ -45,65 +41,65 @@ class YDM3168 extends ZwaveDevice {
 
         // 🔓 unlock by pin
         if (type == '19' && level) {
-          this.homey.app.trigger_user_unlocked?.trigger(this, { userid: level }).catch(this.error);
-          this.homey.app.trigger_touchpad_unlocked?.trigger(this).catch(this.error);
+          this._triggerFlow('trigger_user_unlocked', { userid: level });
+          this._triggerFlow('trigger_touchpad_unlocked');
           return false;
         }
 
         // 🔒 locked
         if (type == '21' && level) {
           if (level == '1') {
-            this.homey.app.trigger_manual_locked?.trigger(this).catch(this.error);
+            this._triggerFlow('trigger_manual_locked');
           }
           if (level == '2') {
-            this.homey.app.trigger_touchpad_locked?.trigger(this).catch(this.error);
+            this._triggerFlow('trigger_touchpad_locked');
           }
           return true;
         }
 
         // 🔓 manual unlock
         if (type == '22' && level) {
-          this.homey.app.trigger_manual_unlocked?.trigger(this).catch(this.error);
+          this._triggerFlow('trigger_manual_unlocked');
           return false;
         }
 
         // 🔒 via Homey
         if (type == '24') {
-          this.homey.app.trigger_homey_locked?.trigger(this).catch(this.error);
+          this._triggerFlow('trigger_homey_locked');
           return true;
         }
 
         // 🔓 via Homey
         if (type == '25') {
-          this.homey.app.trigger_homey_unlocked?.trigger(this).catch(this.error);
+          this._triggerFlow('trigger_homey_unlocked');
           return false;
         }
 
         // 🔒 auto lock
         if (type == '27' && level == '1') {
-          this.homey.app.trigger_auto_locked?.trigger(this).catch(this.error);
+          this._triggerFlow('trigger_auto_locked');
           return true;
         }
 
         // 🚨 tamper
         if (type == '161') {
-          this.homey.app.trigger_tamper_alarm?.trigger(this, {}, { alarmtype: level }).catch(this.error);
+          this._triggerFlow('trigger_tamper_alarm', {}, { alarmtype: level });
           return null;
         }
 
         // 🔋 battery
         if (type == '167') {
-          this.homey.app.trigger_battery_alarm?.trigger(this, {}, { alarmtype: '1' }).catch(this.error);
+          this._triggerFlow('trigger_battery_alarm', {}, { alarmtype: '1' });
           return null;
         }
 
         if (type == '168') {
-          this.homey.app.trigger_battery_alarm?.trigger(this, {}, { alarmtype: '2' }).catch(this.error);
+          this._triggerFlow('trigger_battery_alarm', {}, { alarmtype: '2' });
           return null;
         }
 
         if (type == '169') {
-          this.homey.app.trigger_battery_alarm?.trigger(this, {}, { alarmtype: '3' }).catch(this.error);
+          this._triggerFlow('trigger_battery_alarm', {}, { alarmtype: '3' });
           return null;
         }
 
@@ -112,6 +108,15 @@ class YDM3168 extends ZwaveDevice {
 
     });
 
+  }
+
+  _triggerFlow(cardName, tokens = {}, state = {}) {
+    const card = this.homey.app[cardName];
+    if (!card) return;
+
+    card.trigger(this, tokens, state).catch(err => {
+      this.error(`Flow trigger ${cardName} failed`, err);
+    });
   }
 
   // =========================
