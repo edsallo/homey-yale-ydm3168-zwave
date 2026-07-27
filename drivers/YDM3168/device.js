@@ -30,7 +30,9 @@ class YDM3168 extends ZwaveDevice {
     });
 
     // 🚨 ALARM parsing (основная логика)
-    this.registerCapability('locked', 'NOTIFICATION', {
+    // This Yale Z-Wave module reports physical lock activity via the legacy
+    // Alarm Command Class. It does not expose the newer Notification class.
+    this.registerCapability('locked', 'ALARM', {
 
       report: 'ALARM_REPORT',
 
