@@ -1,5 +1,5 @@
 {
-  "1.3.0": {
-    "en": "Stable release: reliable lock control and PIN management for Yale YDM3168 Z-Wave locks. Supports 6-12 digit PINs, writing and removing PINs in slots 1-10."
+  "1.3.1": {
+    "en": "Restore lock-status updates from Yale's legacy Z-Wave Alarm reports. Includes reliable lock control and PIN management for slots 1-10."
   }
 }

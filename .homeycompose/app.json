@@ -8,7 +8,7 @@
     "en": "Control Yale YDM3168 Z-Wave locks and manage up to 10 PIN codes."
   },
   "category": "security",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "brandColor": "#1F3556",
   "compatibility": ">=5.0.0",
   "author": {
